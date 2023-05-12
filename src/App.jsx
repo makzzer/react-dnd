@@ -11,14 +11,54 @@ const estadoInicial = [
 const App = () => {
 
   //el pinche useState se define con el nombre de la variable entre corchetes
-  const [todos] = useState(estadoInicial)
-  console.log(estadoInicial)
+  const [todos, setTodos] = useState(estadoInicial)
+
+
+  const handleDragEnd = resultado => {
+
+    /*primer caso de borde, por si sacan el draggable para afuera del area del drop*/
+    if (resultado.destination === null) return;
+
+    /*console.log(resultado)*/
+    const startIndex = resultado.source.index;
+    const finalIndex = resultado.destination.index;
+    console.log(startIndex, finalIndex)
+
+    /*creo una copia de los todos para usar el split operator */
+    const nuevosTodosDnD = [...todos]
+    console.log(nuevosTodosDnD)
+    //lo siguiente con splice me esta eliminando del array el elemento que yo selecciono para el drag, por eso lo guardo
+    //poniendo [elementosSeleccionadodnd] hago el destructuring de un array, asi me devuelve el objeto y no el array
+    const [elementoSeleccionadodnd] = nuevosTodosDnD.splice(startIndex, 1)
+    //con este print veo que me retorna un array
+    console.log(elementoSeleccionadodnd)
+
+    //vuelvo a insertar el elemento en el array que copie
+    nuevosTodosDnD.splice(finalIndex, 0, elementoSeleccionadodnd)
+
+    //seteo los todos con el nuevo orden de los arrays acomodados
+    setTodos(nuevosTodosDnD)
+
+
+
+
+
+
+    //setTodos(nuevosTodosDnD)
+
+
+  }
+
+  /*metodo para que no se me copien los elementos que muevo con el drag and drop, sino me repite elementos en la lista*/
+  const noCopiarElementosOnDrag = (evento) => {
+    evento.preventDefault();
+  }
 
   return (
 
-    < DragDropContext>
+    < DragDropContext onDragEnd={handleDragEnd} >
       <h1>Hola drag and drop</h1>
-      <Droppable droppableId='todos'>
+      <Droppable droppableId='todos' >
         {
           (Areadropeable) => (
             <ul ref={Areadropeable.innerRef}
