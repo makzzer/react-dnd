@@ -1,20 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 
-const estadoInicial = [
-  { id: 1, text: "hacer curso react" },
-  { id: 2, text: "hacer curso boostrap" },
-  { id: 3, text: "hacer curso nextjs" },
-  { id: 4, text: "pedir comida" },
-  { id: 5, text: "cortar planta" },
-  { id: 6, text: "cosechar" }
-]
+
+const estadoStorageLocal = JSON.parse(localStorage.getItem('todos')) ||
+  [
+    { id: 1, text: "hacer curso react" },
+    { id: 2, text: "hacer curso vueJs" },
+    { id: 3, text: "hacer curso NextJs" },
+    { id: 4, text: "hacer curso boostrap" },
+    { id: 5, text: "hacer curso tailwind css" },
+    { id: 6, text: "hacer curso csspuro" },
+  ];
+
+
 
 const App = () => {
 
   //el pinche useState se define con el nombre de la variable entre corchetes
-  const [todos, setTodos] = useState(estadoInicial)
+  const [todos, setTodos] = useState(estadoStorageLocal)
+
+  //localStorage
+  useEffect(() => {
+    //sessionStorage.setItem("todos", JSON.stringify(todos))
+    localStorage.setItem("todos", JSON.stringify(todos))
+    console.log("pruebaaa")
+  }, [todos])
+
 
 
   const handleDragEnd = resultado => {
@@ -30,7 +42,7 @@ const App = () => {
     /*creo una copia de los todos para usar el split operator */
     const nuevosTodosDnD = [...todos]
     console.log(nuevosTodosDnD)
-    
+
     //lo siguiente con splice me esta eliminando del array el elemento que yo selecciono para el drag, por eso lo guardo
     //poniendo [elementosSeleccionadodnd] hago el destructuring de un array, asi me devuelve el objeto y no el array
     const [elementoSeleccionadodnd] = nuevosTodosDnD.splice(startIndex, 1)
