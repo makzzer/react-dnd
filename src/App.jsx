@@ -5,7 +5,10 @@ import { DragDropContext, Draggable, Droppable } from '@hello-pangea/dnd'
 const estadoInicial = [
   { id: 1, text: "hacer curso react" },
   { id: 2, text: "hacer curso boostrap" },
-  { id: 3, text: "hacer curso nextjs" }
+  { id: 3, text: "hacer curso nextjs" },
+  { id: 4, text: "pedir comida" },
+  { id: 5, text: "cortar planta" },
+  { id: 6, text: "cosechar" }
 ]
 
 const App = () => {
@@ -27,6 +30,7 @@ const App = () => {
     /*creo una copia de los todos para usar el split operator */
     const nuevosTodosDnD = [...todos]
     console.log(nuevosTodosDnD)
+    
     //lo siguiente con splice me esta eliminando del array el elemento que yo selecciono para el drag, por eso lo guardo
     //poniendo [elementosSeleccionadodnd] hago el destructuring de un array, asi me devuelve el objeto y no el array
     const [elementoSeleccionadodnd] = nuevosTodosDnD.splice(startIndex, 1)
@@ -47,11 +51,6 @@ const App = () => {
     //setTodos(nuevosTodosDnD)
 
 
-  }
-
-  /*metodo para que no se me copien los elementos que muevo con el drag and drop, sino me repite elementos en la lista*/
-  const noCopiarElementosOnDrag = (evento) => {
-    evento.preventDefault();
   }
 
   return (
